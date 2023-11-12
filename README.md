@@ -1,6 +1,6 @@
 # XLCELL-PICKER
 * 作成日：2023.11.11
-* 作成者：kawasaki
+* 作成者：kawasaki8108
 * Python 3.10.9
 * そのほかのモジュールは以下の通り(requirements.txtで定義)
 ```
