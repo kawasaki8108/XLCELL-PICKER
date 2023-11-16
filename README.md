@@ -1,31 +1,48 @@
-# XLCELL-PICKER
+# XLCELL-PIKER_ver.1.0
 * 作成日：2023.11.11
-* 作成者：kawasaki8108
+* 作成者：kawasaki
 * Python 3.10.9
 * そのほかのモジュールは以下の通り(requirements.txtで定義)
 ```
-altgraph==0.17.4
+altgraph==0.17.3
+ansicon==1.89.0
+appdirs==1.4.4
+blessed==1.20.0
+certifi==2023.7.22
+charset-normalizer==3.2.0
 et-xmlfile==1.1.0
-numpy==1.26.1
+flyingcircus==0.1.4.1
+idna==3.4
+jinxed==1.2.0
+numpy==1.25.1
 openpyxl==3.1.2
-packaging==23.2
-pandas==2.1.3
+packaging==23.1
+pandas==2.0.3
 pefile==2023.2.7
 pip==23.3.1
-pyinstaller==6.2.0
-pyinstaller-hooks-contrib==2023.10
+pyinstaller==5.13.0
+pyinstaller-hooks-contrib==2023.5
 python-dateutil==2.8.2
-pytz==2023.3.post1
+pytk==0.0.2.1
+pytz==2023.3
+pywin32==306
 pywin32-ctypes==0.2.2
-setuptools==68.2.2
+requests==2.31.0
+setuptools==65.5.0
+setuptools-scm==7.1.0
 six==1.16.0
+tomli==2.0.1
+typing_extensions==4.7.1
 tzdata==2023.3
+urllib3==2.0.4
+wcwidth==0.2.6
 ```
 
 ## 概要（使用シーン）
 * 同じフォーマットの複数のExcelファイルに対して、特定のセルから値を一括抽出・一覧化したいときを想定して作成しています。
 * 一覧化では、デフォルトで読み込んだファイル名とそのハッシュ値をSHA1を出力します。
-* 出力ファイルはExcel.xlsx形式で以下の形となります。user定義カラム名1~nがuserで定義する列です。
+* 出力ファイルは、```.xlsx```,```.csv```,```.csv(ダブルコーテーション付き)```でチェックボックスにより選択します。
+* 一覧の形は以下の形となります。user定義カラム名1~nがuserで定義する列です。
 
 |(index)|ファイル名|SHA1ハッシュ値|user定義カラム名1|user定義カラム名n|
 |:---|:---|:---|:---|:---|

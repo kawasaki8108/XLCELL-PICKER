@@ -1,6 +1,7 @@
 # ライブラリのインポート
 import glob
 import openpyxl
+import csv
 import pandas as pd
 import os
 import datetime
@@ -39,6 +40,7 @@ def action_select():
     #inputファイルパスのリスト取得
     path_str = f"{inputfld}\*.xlsx"
     paths = glob.glob(path_str)
+    #チェックボックスの値取得は本処理の関数内で、出力直前にif分岐で取得する
 
     #------------------------------#
     #定義ファイルからの各種値取得
@@ -136,8 +138,17 @@ def action_select():
     df.index = df.index + 1
     # 現在時刻取得
     dt = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-    # 定義ファイルで指定したディレクトリにExcelファイルとして書き出し
-    df.to_excel(outputfld + f'\{outputfname}_{dt}.xlsx')
+    
+    #チェックボックスの値（True/False）を取得しTrueならその形式で出力する
+    if varxls.get() :
+        # 定義ファイルで指定したディレクトリにExcelファイルとして書き出し
+        df.to_excel(outputfld + f'\{outputfname}_{dt}.xlsx')    
+    if varcsv.get() :
+        # 定義ファイルで指定したディレクトリにcsvファイルとして書き出し
+        df.to_csv(outputfld + f'\{outputfname}_{dt}.csv', encoding="shift-jis")    
+    if varcsv_quotingall.get() :
+        # 定義ファイルで指定したディレクトリにcsvファイルとして書き出し(ダブルコーテーション付)
+        df.to_csv(outputfld + f'\{outputfname}_{dt}_quotingON.csv', encoding="shift-jis", quoting=csv.QUOTE_ALL)
     print("処理完了")
     messagebox.showinfo('メッセージ', '出力完了しました')
 
@@ -145,7 +156,7 @@ def action_select():
 #GUIの定義
 #=================================#
 root = tk.Tk()
-root.geometry("780x190+100+200")#画面サイズ＋左から100px上から200pxの位置にウィンドウ表示
+root.geometry("780x210+100+200")#画面サイズ＋左から100px上から200pxの位置にウィンドウ表示
 root.title("XLCELL-PICKER Ver.1.0.0")
 #Excel格納フォルダには不要なものは入れないでのメッセージラベル作成
 msg1_label = tk.Label(text="Excel格納フォルダには対象のExcel以外は入れないでください。∵シート名で定義しているため")
@@ -168,15 +179,37 @@ output_label.place(x=10, y=75)
 #出力先参照ボタンの作成
 button2 = tk.Button(text="参照",width=10,command=outputbrowse_select)
 button2.place(x=680, y=72)
+
+#チェックボックスの設定
+#出力ファイル形式選択の表示ラベルの作成
+outputtype_label = tk.Label(text="出力ファイル形式")
+outputtype_label.place(x=10, y=103)
+#チェックボックス1（Excel形式）
+varxls = tk.BooleanVar()
+varxls.set( True ) #初期値をTrueに設定
+che1 = tk.Checkbutton( text = '.xlsxファイル', variable = varxls )
+che1.place(x=108, y=100)
+#チェックボックス2（csv形式）
+varcsv = tk.BooleanVar()
+varcsv.set( True ) #初期値をTrueに設定
+che2 = tk.Checkbutton( text = '.csvファイル', variable = varcsv )
+che2.place(x=200, y=100)
+#チェックボックス3（csv形式かつ項目名含め全値にダブルコーテーション付）
+varcsv_quotingall = tk.BooleanVar()
+varcsv_quotingall.set( True ) #初期値をTrueに設定
+che2 = tk.Checkbutton( text = '.csvファイル(ダブルクォーテーション付き)', variable = varcsv_quotingall )
+che2.place(x=300, y=100)
+
+
 #定義ファイルへの記入を促すラベル作成
 msg2_label = tk.Label(text="当該toolと同階層にある「定義ファイル.xlsx」で諸々入力・上書き保存したうえで実行してください")
-msg2_label.place(x=10, y=110)
+msg2_label.place(x=10, y=130)
 #実行ボタンの作成
 Button=tk.Button(text="実行",width=10,command=action_select)
-Button.place(x=680, y=110)
+Button.place(x=680, y=130)
 # プログレスバー配置
 progbar = ttk.Progressbar(root, length=740, mode="determinate", maximum=1)
-progbar.place(x=20, y=150)
+progbar.place(x=20, y=170)
 
 root.mainloop()#ウィンドウ表示
 #------------------------------#
