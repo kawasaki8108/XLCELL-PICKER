@@ -197,8 +197,8 @@ che2.place(x=200, y=100)
 #チェックボックス3（csv形式かつ項目名含め全値にダブルコーテーション付）
 varcsv_quotingall = tk.BooleanVar()
 varcsv_quotingall.set( True ) #初期値をTrueに設定
-che2 = tk.Checkbutton( text = '.csvファイル(ダブルクォーテーション付き)', variable = varcsv_quotingall )
-che2.place(x=300, y=100)
+che3 = tk.Checkbutton( text = '.csvファイル(ダブルクォーテーション付き)', variable = varcsv_quotingall )
+che3.place(x=300, y=100)
 
 
 #定義ファイルへの記入を促すラベル作成
