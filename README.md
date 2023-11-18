@@ -1,5 +1,5 @@
 # XLCELL-PIKER_ver.1.0
-▼実行画面のイメージ
+▼実行画面のイメージ<br>
 ![GUIのキャプチャv1](image/GUIのキャプチャv1.png)<br>
 * 作成日：2023.11.11
 * 作成者：kawasaki
