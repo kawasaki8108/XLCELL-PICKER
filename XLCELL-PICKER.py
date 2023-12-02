@@ -3,6 +3,7 @@ import glob
 import openpyxl
 import csv
 import pandas as pd
+import numpy
 import os
 import datetime
 import hashlib
@@ -80,6 +81,8 @@ def action_select():
     #------------------------------#
     # 空のデータフレームを作成（ハッシュ値も列として入れたいところ）
     df = pd.DataFrame(columns=["ファイル名", "SHA1ハッシュ値"] + dfncolumns)
+    # 空のリストを作成（下の繰り返し処理で指定シートない場合に当該Excelファイル名を格納）
+    List_nosheetxl = []
 
     # GUIで指定したExcel格納フォルダpaths内（*.xlsxのリスト）からに順にExcelを開き、カラムに対応する値を取得して追加していく
     for i, file_path in enumerate(paths):# file_path変数にファイルパスが1つずつ入る
@@ -108,7 +111,9 @@ def action_select():
         #対象シートが存在しなければその旨ポップアップ表示
         if sheet_exists == False:#「if not sheet_exists:」と同義
             print(f'指定されたシート「{tgtsheetname}」が存在しません')
-            messagebox.showerror('エラー', f'ファイル「{os.path.splitext(os.path.basename(file_path))[0]}」\n内に、定義ファイルで指定したシートがありません')
+            List_nosheetxl.append(os.path.splitext(os.path.basename(file_path))[0])
+            continue
+            # messagebox.showerror('エラー', f'ファイル「{os.path.splitext(os.path.basename(file_path))[0]}」\n内に、定義ファイルで指定したシートがありません')
         
         #カラム名のリストdfncolumnsと当該カラム名対応するセル番地リストdfncell_addressesを
         # zip関数で複数のリストの要素を同時に取得する（変数■,●in ■list,●listの対応順）
@@ -151,6 +156,11 @@ def action_select():
         df.to_csv(outputfld + f'\{outputfname}_{dt}_quotingON.csv', encoding="shift-jis", quoting=csv.QUOTE_ALL)
     print("処理完了")
     messagebox.showinfo('メッセージ', '出力完了しました')
+    #該当シートなしのExcelファイルがある場合だけ、該当ファイル名の一覧.csvを出力＋メッセージ表示
+    if len(List_nosheetxl) > 0 :
+        #該当シートなしのExcelファイル名のリストをGUI指定したoutputディレクトリに出力
+        numpy.savetxt(f'{outputfld}\該当シートなしのファイル一覧.csv', List_nosheetxl, fmt='%s', delimiter=',')
+        messagebox.showinfo('メッセージ', '定義ファイル指定シートがないExcelがあります。\n同時出力した一覧ファイルを確認ください。')
 
 #=================================#
 #GUIの定義
