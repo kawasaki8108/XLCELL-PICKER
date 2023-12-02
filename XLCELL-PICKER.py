@@ -167,7 +167,7 @@ def action_select():
 #=================================#
 root = tk.Tk()
 root.geometry("780x210+100+200")#画面サイズ＋左から100px上から200pxの位置にウィンドウ表示
-root.title("XLCELL-PICKER Ver.1.0.0")
+root.title("XLCELL-PICKER v1.1.0")
 #Excel格納フォルダには不要なものは入れないでのメッセージラベル作成
 msg1_label = tk.Label(text="Excel格納フォルダには対象のExcel以外は入れないでください。∵シート名で定義しているため")
 msg1_label.place(x=10, y=10)
